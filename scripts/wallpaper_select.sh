@@ -26,9 +26,6 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
             swww img "$selected_wallpaper_path"
             echo "$selected_wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
             wal -i "$selected_wallpaper_path"
-			killall -SIGUSR2 waybar
-			killall swaync
-			dbus-launch swaync &
 			sleep 1
 			notify-send "swaync" "Wallpaper changed: [$foldername] $filename"
         fi

@@ -23,10 +23,16 @@ find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.
         if [ -n "$selected_wallpaper_path" ]; then
             filename=$(basename "$selected_wallpaper_path")
             foldername=$(basename "$(dirname "$selected_wallpaper_path")")
-            swww img "$selected_wallpaper_path"
+            # Use feh for i3/X11
+            feh --bg-fill "$selected_wallpaper_path"
+            # Update .fehbg for next session
+            echo "#!/bin/sh" > "$HOME/.fehbg"
+            echo "feh --no-fehbg --bg-fill '$selected_wallpaper_path'" >> "$HOME/.fehbg"
+            chmod +x "$HOME/.fehbg"
+            
             echo "$selected_wallpaper_path" > "$HOME/.cache/last_wallpaper.path"
             wal -i "$selected_wallpaper_path"
 			sleep 1
-			notify-send "swaync" "Wallpaper changed: [$foldername] $filename"
+			twmnc --title "swaync" --content "Wallpaper changed: [$foldername] $filename"
         fi
     done
